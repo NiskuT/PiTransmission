@@ -1,10 +1,10 @@
-
 /**
  * @file uart_test.c
  * @author Christophe Sonntag (http://u4a.at)
  * @licence LGPL v2
  * @note build it with : gcc uart_test.c -o uart_test
  * @test-note fonctionne avec PIPE (mkfifo)
+ 
  */
 
 #include <stdio.h> /**< printf, fgets */
