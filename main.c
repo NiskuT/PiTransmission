@@ -1,10 +1,11 @@
+
 /**
- * @file uart_test.c
- * @author Christophe Sonntag (http://u4a.at)
- * @licence LGPL v2
- * @note build it with : gcc uart_test.c -o uart_test
- * @test-note fonctionne avec PIPE (mkfifo)
- */
+Â * @file uart_test.c
+Â * @author Christophe Sonntag (http://u4a.at)
+Â * @licence LGPL v2
+Â * @note build it with : gcc uart_test.c -o uart_test
+Â * @test-note fonctionne avec PIPE (mkfifo)
+Â */
 
 #include <stdio.h> /**< printf, fgets */
 #include <stdlib.h> /**< exit */
@@ -32,7 +33,7 @@ void SIGINT_HANDLE( int signal )
   run = false;
 }
 
-/**< Permet d'affecter un signal à une fonction */
+/**< Permet d'affecter un signal Ã  une fonction */
 int add_signal ( int sig, void ( *h )( int ), int options )
 {
   int r;
@@ -48,8 +49,8 @@ int add_signal ( int sig, void ( *h )( int ), int options )
 void help()
 {
   printf( "Usage : ./uart_test <mode>\n" );
-  printf( "  <mode> : R|r pour lire\n" );
-  printf( "  <mode> : W|w pour écrire\n" );
+  printf( "Â  <mode> : R|r pour lire\n" );
+  printf( "Â  <mode> : W|w pour Ã©crire\n" );
   printf( "\n" );
 }
 
@@ -73,7 +74,7 @@ int transmitter()
   bool error = false;
   run = true;
 
-  printf( "Ouverture en écriture : open( uartPath, O_WRONLY )...\n" );
+  printf( "Ouverture en Ã©criture : open( uartPath, O_WRONLY )...\n" );
 
   int uartWrite = open( uartPath, O_WRONLY );
   if( uartWrite < 0 ) { perror( "open uart to write" ); return EXIT_FAILURE;}
@@ -82,12 +83,12 @@ int transmitter()
   add_signal( SIGINT, SIGINT_HANDLE, SA_RESTART );
 
 /**< La taille du Buffer est arbitraire,
-   * cela prendra juste plusieurs tours au buffer de STDIN pour se remplir
-   * puis se vider s'il est surchargé. */
+Â Â Â * cela prendra juste plusieurs tours au buffer de STDIN pour se remplir
+Â Â Â * puis se vider s'il est surchargÃ©. */
 char requestBuffer[64];
 
 ssize_t requestLength, sendLength, alreadySend;
-printf( "Saisir du texte à envoyer : \n" );
+printf( "Saisir du texte Ã  envoyer : \n" );
 
 while( run && !error )
 {
@@ -105,7 +106,7 @@ if( requestLength == 0 ) break;
 alreadySend = 0;
 do
 {
-/**< Decalage auto avec "alreadySend", si le message n'est pas envoyé entièrement du premier coup */
+/**< Decalage auto avec "alreadySend", si le message n'est pas envoyÃ© entiÃ¨rement du premier coup */
 sendLength = write( uartWrite, requestBuffer + alreadySend, requestLength - alreadySend );
 
 /**< Erreur d'ecriture */
@@ -137,7 +138,7 @@ if( uartRead < 0 ) { perror( "open uart to read" ); return EXIT_FAILURE;}
 add_signal( SIGINT, SIGINT_HANDLE, SA_RESTART );
 
 /**< La taille du Buffer est arbitraire,
-/** cela prendra juste plusieurs tours au buffer de l'uart pour se vider s'il est surchargé. */
+/** cela prendra juste plusieurs tours au buffer de l'uart pour se vider s'il est surchargÃ©. */
 char responseBuffer[64];
 
 ssize_t responseLength;
@@ -154,12 +155,12 @@ responseLength = read( uartRead, responseBuffer, sizeof( responseBuffer ) );
 /**< Erreur de lecture */
 if( responseLength < 0 ) { perror( "read uart" ); error = true; break; }
 
-/**< Touches CTRL-D provenant de l'émetteur (fin de transmission) */
+/**< Touches CTRL-D provenant de l'Ã©metteur (fin de transmission) */
 if( responseLength == 0 ) break;
 
 /** ! Affichage ! */
 
-/**< Affichage des données sur stdout (fd=1). Le cas de problème sur stdout est quasi inexistant */
+/**< Affichage des donnÃ©es sur stdout (fd=1). Le cas de problÃ¨me sur stdout est quasi inexistant */
 write( 1, responseBuffer, responseLength );
 }
 
