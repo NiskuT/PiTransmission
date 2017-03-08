@@ -93,8 +93,7 @@ int transmitter()
   char requestBuffer[64];
  
   ssize_t requestLength, sendLength, alreadySend;
-  printf( "Saisir du texte à envoyer : \n" );
- 
+  printf( "Saisir du texte à envoyer : \n" ); 
   while( run && !error )
   {
     /** ! Lecture ! */
@@ -104,8 +103,7 @@ int transmitter()
  
     /**< Erreur de lecture */
     if( requestLength < 0 )  {  perror( "read stdin" ); error = true; break; }
- 
-    /**< Touhes CTRL-D */
+     /**< Touhes CTRL-D */
     if( requestLength == 0 )  break;
  
     /** ! Envoi ! */
@@ -124,7 +122,7 @@ int transmitter()
     while ( alreadySend < requestLength );
  
     /**< Doit flush le buffer (système) de l'uart (cf. http://stackoverflow.com/a/13013771 ) */
-    // sleep(2); // a essayer au cas ou
+    sleep(2); // a essayer au cas ou
     int tcFlushOK = tcflush( uartWrite, TCIOFLUSH );
     #if ActiveTcflushTest == 1
     if( tcFlushOK < 0 ) {  perror( "tcflush uartWrite" ); error = true; break; }
@@ -177,7 +175,7 @@ int receptor()
  
  
     /**< Doit flush le buffer (système) de l'uart (cf. http://stackoverflow.com/a/13013771 ) */
-    // sleep(2); // a essayer au cas ou
+    sleep(2); // a essayer au cas ou
     int tcFlushOK = tcflush( uartRead, TCIOFLUSH );
     #if ActiveTcflushTest == 1
     if( tcFlushOK < 0 ) {  perror( "tcflush uartRead" ); error = true; break; }
